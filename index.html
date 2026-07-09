@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EDP — Escola da Palavra | O Ministério da Oração</title>
+<style>
+  :root {
+    --yellow:      #D4A017;
+    --yellow-dark: #B8860B;
+    --yellow-light:#F5E6B8;
+    --black:       #1A1A1A;
+    --white:       #FFFFFF;
+    --gray:        #555555;
+    --gray-light:  #888888;
+    --ceia-bg:     #FFF9ED;
+    --cancel:      #C0392B;
+    --border:      #E8E0D0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+    background: var(--white);
+    color: var(--black);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 740px;
+    margin: 0 auto;
+    padding: 0 16px 40px;
+  }
+
+  /* ═══ TOP YELLOW BAND ═══ */
+  .top-band {
+    background: var(--yellow);
+    padding: 36px 20px 28px;
+    text-align: center;
+    clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
+    margin-bottom: -8px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .top-band .brand {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: var(--black);
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+
+  .top-band .audience {
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(0,0,0,0.7);
+    letter-spacing: 0.5px;
+    margin-bottom: 14px;
+  }
+
+  .top-band .pill {
+    display: inline-block;
+    background: var(--black);
+    color: var(--white);
+    font-size: 14px;
+    font-weight: 700;
+    padding: 7px 24px;
+    border-radius: 50px;
+    letter-spacing: 0.3px;
+  }
+
+  /* ═══ MEETING NOTE ═══ */
+  .meeting-note {
+    text-align: center;
+    margin: 16px 0 20px;
+    font-size: 13px;
+    color: var(--gray);
+    font-style: italic;
+  }
+
+  .meeting-note span {
+    background: var(--yellow-light);
+    padding: 4px 16px;
+    border-radius: 20px;
+  }
+
+  /* ═══ INFO PILLS ═══ */
+  .info-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+  }
+
+  .info-pill {
+    flex: 1;
+    min-width: 120px;
+    background: var(--white);
+    border: 2px solid var(--yellow);
+    border-radius: 10px;
+    padding: 12px 14px;
+    text-align: center;
+  }
+
+  .info-pill .label {
+    color: var(--gray-light);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+
+  .info-pill .value {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--black);
+  }
+
+  /* ═══ SCHEDULE ═══ */
+  .schedule {
+    background: var(--white);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .schedule-header {
+    background: var(--black);
+    color: var(--yellow);
+    padding: 12px 18px;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+  }
+
+  /* ═══ ROW ═══ */
+  .row {
+    display: grid;
+    grid-template-columns: 78px 48px 1fr 120px;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    align-items: stretch;
+    min-height: 66px;
+    transition: background 0.15s;
+  }
+
+  .row:last-child { border-bottom: none; }
+  .row:hover { background: #FFFDF7; }
+
+  .row .date {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    color: var(--gray);
+    padding: 8px 6px;
+    text-align: center;
+    font-weight: 700;
+    border-right: 1px solid var(--border);
+    background: #FAFAFA;
+  }
+
+  .row .number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--yellow-dark);
+    border-right: 1px solid var(--border);
+    padding: 8px 4px;
+  }
+
+  .row .content {
+    padding: 11px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-right: 1px solid var(--border);
+  }
+
+  .row .content .theme {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--black);
+    line-height: 1.3;
+    margin-bottom: 3px;
+  }
+
+  .row .content .subtitle {
+    font-size: 12px;
+    color: var(--gray);
+    line-height: 1.45;
+  }
+
+  .row .teacher {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    color: var(--black);
+    padding: 8px 6px;
+    text-align: center;
+    font-weight: 700;
+  }
+
+  .row .teacher.pending {
+    color: var(--gray-light);
+    font-weight: 400;
+    font-style: italic;
+    font-size: 12px;
+  }
+
+  /* ═══ CEIA ═══ */
+  .row.ceia {
+    background: var(--ceia-bg);
+    min-height: 74px;
+  }
+
+  .row.ceia .date {
+    background: var(--yellow-light);
+  }
+
+  .row.ceia .number {
+    color: var(--cancel);
+    font-size: 20px;
+  }
+
+  .row.ceia .content .theme {
+    color: #8B6914;
+    font-size: 13px;
+  }
+
+  .row.ceia .content .cancelled {
+    color: var(--cancel);
+    font-size: 11px;
+    margin-top: 4px;
+    font-weight: 600;
+  }
+
+  .row.ceia .teacher {
+    color: var(--gray-light);
+    font-weight: 400;
+    font-size: 12px;
+  }
+
+  /* ═══ BOTTOM QUOTE BAND ═══ */
+  .quote-band {
+    background: var(--yellow);
+    margin-top: 24px;
+    padding: 28px 24px;
+    text-align: center;
+    clip-path: polygon(0 8%, 100% 0, 100% 100%, 0 100%);
+    position: relative;
+  }
+
+  .quote-band .quote {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: 16px;
+    font-style: italic;
+    color: var(--black);
+    line-height: 1.5;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  .quote-band .attribution {
+    font-size: 12px;
+    color: rgba(0,0,0,0.55);
+    margin-top: 10px;
+    font-weight: 600;
+  }
+
+  /* ═══ MOBILE ═══ */
+  @media (max-width: 600px) {
+    .container { padding: 0 6px 28px; }
+
+    .top-band {
+      padding: 24px 12px 22px;
+      clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+    }
+
+    .top-band .brand { font-size: 22px; }
+    .top-band .pill { font-size: 12px; padding: 6px 18px; }
+
+    .row {
+      grid-template-columns: 60px 38px 1fr 82px;
+      min-height: auto;
+    }
+
+    .row .date { font-size: 10px; padding: 6px 2px; }
+    .row .number { font-size: 18px; padding: 6px 2px; }
+    .row .content { padding: 8px 6px; }
+    .row .content .theme { font-size: 11px; }
+    .row .content .subtitle { font-size: 10px; }
+    .row .teacher { font-size: 10px; padding: 6px 2px; }
+    .row .teacher.pending { font-size: 9px; }
+
+    .row.ceia .content .theme { font-size: 10px; }
+    .row.ceia .content .cancelled { font-size: 9px; }
+
+    .quote-band { padding: 20px 14px; }
+    .quote-band .quote { font-size: 14px; }
+
+    .info-pill .value { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ TOP YELLOW BAND ═══ -->
+<div class="top-band">
+  <div class="brand">Estudo Bíblico</div>
+  <div class="audience">Jovens e Adultos | Nº 10</div>
+  <div class="pill">O Ministério da Oração</div>
+</div>
+
+<div class="container">
+
+  <!-- MEETING NOTE -->
+  <div class="meeting-note">
+    <span>✎ Conforme alinhado em reunião</span>
+  </div>
+
+  <!-- INFO BAR -->
+  <div class="info-bar">
+    <div class="info-pill">
+      <div class="label">Início</div>
+      <div class="value">12 Jul 26</div>
+    </div>
+    <div class="info-pill">
+      <div class="label">Término</div>
+      <div class="value">04 Out 26</div>
+    </div>
+    <div class="info-pill">
+      <div class="label">Aulas</div>
+      <div class="value">10 + 3⛪</div>
+    </div>
+  </div>
+
+  <!-- SCHEDULE -->
+  <div class="schedule">
+    <div class="schedule-header">📅 Cronograma de Aulas</div>
+
+    <!-- Aula 01 -->
+    <div class="row">
+      <div class="date">12/07</div>
+      <div class="number">01</div>
+      <div class="content">
+        <div class="theme">A Natureza Bíblica da Oração</div>
+        <div class="subtitle">Os termos hebraicos e gregos que revelam toda a riqueza do diálogo com Deus</div>
+      </div>
+      <div class="teacher">Pr. Júnior Chaves</div>
+    </div>
+
+    <!-- Aula 02 -->
+    <div class="row">
+      <div class="date">19/07</div>
+      <div class="number">02</div>
+      <div class="content">
+        <div class="theme">Os Grandes Propósitos da Oração</div>
+        <div class="subtitle">Comunhão, adoração, intercessão e súplica — a ordem espiritualmente saudável</div>
+      </div>
+      <div class="teacher">Paulo Martins</div>
+    </div>
+
+    <!-- Aula 03 -->
+    <div class="row">
+      <div class="date">26/07</div>
+      <div class="number">03</div>
+      <div class="content">
+        <div class="theme">Aprendendo a Orar com o Mestre Jesus</div>
+        <div class="subtitle">O Pai-Nosso como modelo vivo de oração: filiação, governo e dependência</div>
+      </div>
+      <div class="teacher">Diogo</div>
+    </div>
+
+    <!-- CEIA — Aula 04 -->
+    <div class="row ceia">
+      <div class="date">02/08</div>
+      <div class="number">⛪</div>
+      <div class="content">
+        <div class="theme">Ceia do Senhor · 1º domingo do mês</div>
+        <div class="cancelled">❌ Aula 04 cancelada: Livres da Culpa e do Rancor por Meio da Oração</div>
+      </div>
+      <div class="teacher">—</div>
+    </div>
+
+    <!-- Aula 05 -->
+    <div class="row">
+      <div class="date">09/08</div>
+      <div class="number">05</div>
+      <div class="content">
+        <div class="theme">Oração: A Cura dos Males da Pós-Modernidade</div>
+        <div class="subtitle">Resposta bíblica à ansiedade, ao burnout e ao vazio existencial do nosso tempo</div>
+      </div>
+      <div class="teacher">Pr. Jamerson</div>
+    </div>
+
+    <!-- Aula 06 -->
+    <div class="row">
+      <div class="date">16/08</div>
+      <div class="number">06</div>
+      <div class="content">
+        <div class="theme">A Tríade para a Vitória: Vigilância, Jejum e Oração</div>
+        <div class="subtitle">A atitude espiritual que sustenta o cristão diante de seus três inimigos</div>
+      </div>
+      <div class="teacher pending">a combinar</div>
+    </div>
+
+    <!-- Aula 07 -->
+    <div class="row">
+      <div class="date">23/08</div>
+      <div class="number">07</div>
+      <div class="content">
+        <div class="theme">Orando no Poder do Espírito, Nosso Ajudador</div>
+        <div class="subtitle">A intercessão trinitária e o papel do Espírito Santo quando não sabemos orar</div>
+      </div>
+      <div class="teacher">Pastor Marcelo</div>
+    </div>
+
+    <!-- Aula 08 -->
+    <div class="row">
+      <div class="date">30/08</div>
+      <div class="number">08</div>
+      <div class="content">
+        <div class="theme">A Importância e o Poder da Intercessão</div>
+        <div class="subtitle">Interceder é colocar-se entre a necessidade humana e o Deus que pode supri-la</div>
+      </div>
+      <div class="teacher">Gabriel</div>
+    </div>
+
+    <!-- CEIA — Aula 09 -->
+    <div class="row ceia">
+      <div class="date">06/09</div>
+      <div class="number">⛪</div>
+      <div class="content">
+        <div class="theme">Ceia do Senhor · 1º domingo do mês</div>
+        <div class="cancelled">❌ Aula 09 cancelada: Crescimento Espiritual no Secreto da Oração</div>
+      </div>
+      <div class="teacher">—</div>
+    </div>
+
+    <!-- Aula 10 -->
+    <div class="row">
+      <div class="date">13/09</div>
+      <div class="number">10</div>
+      <div class="content">
+        <div class="theme">Na Escola da Oração: Aprendendo com os Salmos</div>
+        <div class="subtitle">O saltério como manual vivo de louvor, lamento, confissão e clamor</div>
+      </div>
+      <div class="teacher">Michelle</div>
+    </div>
+
+    <!-- Aula 11 -->
+    <div class="row">
+      <div class="date">20/09</div>
+      <div class="number">11</div>
+      <div class="content">
+        <div class="theme">Maturidade na Oração Diante das Respostas Divinas</div>
+        <div class="subtitle">Como agir com fé madura diante do silêncio, do não e do sim de Deus</div>
+      </div>
+      <div class="teacher pending">a combinar</div>
+    </div>
+
+    <!-- Aula 12 -->
+    <div class="row">
+      <div class="date">27/09</div>
+      <div class="number">12</div>
+      <div class="content">
+        <div class="theme">O Poder e a Autoridade da Oração Coletiva</div>
+        <div class="subtitle">Cristo no meio da igreja reunida — a oração que transforma comunidades</div>
+      </div>
+      <div class="teacher pending">a combinar</div>
+    </div>
+
+    <!-- CEIA — Aula 13 -->
+    <div class="row ceia">
+      <div class="date">04/10</div>
+      <div class="number">⛪</div>
+      <div class="content">
+        <div class="theme">Ceia do Senhor · 1º domingo do mês</div>
+        <div class="cancelled">❌ Aula 13 cancelada: Desenvolvendo uma Cultura de Oração</div>
+      </div>
+      <div class="teacher">—</div>
+    </div>
+
+  </div>
+
+  <!-- BOTTOM QUOTE -->
+  <div class="quote-band">
+    <div class="quote">
+      "Orar é permanecer, confiar e depender mesmo quando as respostas não são imediatas."
+    </div>
+    <div class="attribution">— O Ministério da Oração</div>
+  </div>
+
+</div>
+
+</body>
+</html>
